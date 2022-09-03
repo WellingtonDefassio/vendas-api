@@ -2,6 +2,7 @@ package br.vendasapi.model;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Entity()
 @Table(name = "produto")
@@ -18,6 +19,8 @@ public class Produto {
     private BigDecimal preco;
     @Column(length = 100)
     private String sku;
+    @Column(name = "data_cadastro")
+    private LocalDate dataCadastro;
 
     public Produto() {
     }
@@ -27,6 +30,27 @@ public class Produto {
         this.descricao = descricao;
         this.preco = preco;
         this.sku = sku;
+    }
+
+    public Produto(Long id, String nome, String descricao, BigDecimal preco, String sku) {
+        this.id = id;
+        this.nome = nome;
+        this.descricao = descricao;
+        this.preco = preco;
+        this.sku = sku;
+    }
+
+    public LocalDate getDataCadastro() {
+        return dataCadastro;
+    }
+
+    public void setDataCadastro(LocalDate dataCadastro) {
+        this.dataCadastro = dataCadastro;
+    }
+
+    @PrePersist
+    public void prePersist(){
+        setDataCadastro(LocalDate.now());
     }
 
     public Long getId() {
