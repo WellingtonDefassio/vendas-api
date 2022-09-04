@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public class ProdutoFormRequest {
+public class ProdutoCadastroFormRequest {
     private Long id;
     private String descricao;
     private String sku;
@@ -15,7 +15,7 @@ public class ProdutoFormRequest {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate cadastro;
 
-    public ProdutoFormRequest(Long id, String descricao, String sku, BigDecimal preco, String nome, LocalDate cadastro) {
+    public ProdutoCadastroFormRequest(Long id, String descricao, String sku, BigDecimal preco, String nome, LocalDate cadastro) {
         this.id = id;
         this.descricao = descricao;
         this.sku = sku;
@@ -24,15 +24,15 @@ public class ProdutoFormRequest {
         this.cadastro = cadastro;
     }
 
-    public ProdutoFormRequest() {
+    public ProdutoCadastroFormRequest() {
     }
 
-    public static ProdutoFormRequest toFromRequest(Produto produto) {
-        return new ProdutoFormRequest(produto.getId(), produto.getDescricao(), produto.getSku(), produto.getPreco(), produto.getNome(), produto.getDataCadastro());
+    public static ProdutoCadastroFormRequest toFromRequest(Produto produto) {
+        return new ProdutoCadastroFormRequest(produto.getId(), produto.getDescricao(), produto.getSku(), produto.getPreco(), produto.getNome(), produto.getDataCadastro());
     }
 
     public Produto converter() {
-        return new Produto(id, nome, descricao, preco, sku);
+        return new Produto(id, nome, descricao, preco, sku, cadastro);
     }
 
     public LocalDate getCadastro() {
