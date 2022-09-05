@@ -32,14 +32,20 @@ public class ProdutoController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity atualizar(@PathVariable Long id,  @RequestBody ProdutoAtualizarFormRequest formProduto) {
+    public ResponseEntity atualizar(@PathVariable Long id, @RequestBody ProdutoAtualizarFormRequest formProduto) {
         Optional<Produto> optionalProduto = produtoRepository.findById(id);
-        if(!optionalProduto.isPresent()) {
+        if (!optionalProduto.isPresent()) {
             return ResponseEntity.notFound().build();
         }
         formProduto.atualizar(optionalProduto.get(), this.produtoRepository);
         return ResponseEntity.ok().build();
 
+    }
+
+    @GetMapping
+    public ResponseEntity listar() {
+
+        return new ResponseEntity(produtoRepository.findAll().stream().map(ProdutoCadastroFormRequest::toFromRequest).toList(), HttpStatus.OK);
     }
 
 
