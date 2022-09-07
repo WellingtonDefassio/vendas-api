@@ -43,9 +43,32 @@ public class ProdutoController {
     }
 
     @GetMapping
-    public ResponseEntity listar() {
-
+    public ResponseEntity listar() throws InterruptedException {
         return new ResponseEntity(produtoRepository.findAll().stream().map(ProdutoCadastroFormRequest::toFromRequest).toList(), HttpStatus.OK);
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity getById(@PathVariable Long id) {
+
+        Optional<Produto> produtoOptional = produtoRepository.findById(id);
+        if (!produtoOptional.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+        ProdutoCadastroFormRequest produtoFormRequest = ProdutoCadastroFormRequest.toFromRequest(produtoOptional.get());
+
+        return new ResponseEntity(produtoFormRequest, HttpStatus.OK);
+
+    }
+    @DeleteMapping("{id}")
+    public ResponseEntity deleteById(@PathVariable Long id) {
+        Optional<Produto> produtoOptional = produtoRepository.findById(id);
+        if (!produtoOptional.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+        produtoRepository.deleteById(id);
+
+        return ResponseEntity.accepted().build();
+
     }
 
 
